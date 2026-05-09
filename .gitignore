@@ -1,0 +1,24 @@
+# Virtual environments
+venv/
+.venv/
+
+# Environment variables (API keys)
+.env
+.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# DeepEval cache
+.deepeval/
+
+# Pytest
+.pytest_cache/
+
+# IDE
+.vscode/
+.idea/
