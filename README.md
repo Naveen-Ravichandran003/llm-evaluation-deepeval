@@ -46,6 +46,32 @@ Instead of writing complex regex or string-matching rules to grade an output, we
 
 ---
 
+## 🎭 Example Scenario: LLM-as-a-Judge in Action
+
+To understand how this works in practice, let's look at an example evaluating **Answer Relevancy**.
+
+### The Setup
+* **User Input:** *"What is the capital of France?"*
+* **System Under Test:** Any AI application you are evaluating (e.g., a **Chatbot**, a **RAG pipeline**, or a raw **LLM** like GPT-4)
+* **The Judge:** Groq LLaMA 3.3 70B
+* **Threshold for Passing:** `0.5`
+
+### Scenario 1: A "Correct" Response (✅ PASS)
+* **System Under Test Replies:** *"The capital of France is Paris."*
+* **The Judge Analyzes:** The judge evaluates if the reply directly answers the input question.
+* **Result:** The Judge assigns a **Score of 1.0**. 
+* **Judge's Reasoning:** *"The output perfectly addresses the question about the capital of France without any irrelevant statements."*
+
+### Scenario 2: A "Wrong" Response (❌ FAIL)
+* **System Under Test Replies:** *"France is a country in Europe. I love eating croissants when I visit!"*
+* **The Judge Analyzes:** The judge evaluates if the reply answers the input question.
+* **Result:** The Judge assigns a **Score of 0.0**. 
+* **Judge's Reasoning:** *"The output provides factual trivia about France but completely fails to identify its capital."*
+
+In this framework, you simply provide the outputs, and the **Groq Judge** handles the scoring logic automatically!
+
+---
+
 ## 🎯 DeepEval Evaluation Metrics in Detail
 
 This framework implements five core metrics provided by DeepEval, each designed to evaluate a specific dimension of LLM performance:
