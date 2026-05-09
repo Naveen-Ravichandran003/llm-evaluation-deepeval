@@ -38,15 +38,42 @@
 
 ---
 
-## 🎯 Evaluation Metrics
+## 🧠 What is LLM Evaluation?
 
-| # | Metric | What It Measures | Use Case |
-|---|--------|------------------|----------|
-| 1 | **Answer Relevancy** | Is the response relevant to the input question? | General Q&A |
-| 2 | **Faithfulness** | Is the response grounded in the retrieved context? | RAG pipelines |
-| 3 | **Hallucination** | Does the response fabricate facts not in the context? | Fact-checking |
-| 4 | **Toxicity** | Does the response contain harmful or toxic content? | Safety guardrails |
-| 5 | **G-Eval (Custom)** | Factual correctness against an expected output | Custom criteria |
+LLM Evaluation is the systematic process of assessing the performance, reliability, and safety of Large Language Models. Unlike traditional software where unit tests expect deterministic outputs (e.g., `2 + 2 = 4`), LLMs generate probabilistic natural language. This requires a paradigm shift from **exact-match assertions** to **LLM-as-a-Judge evaluations**.
+
+Instead of writing complex regex or string-matching rules to grade an output, we use another high-quality LLM (the **Judge**) to evaluate the generated text against specific criteria (like relevancy, factual consistency, or toxicity). In this project, we use **Groq's LLaMA 3.3 70B** as the judge to evaluate the outputs.
+
+---
+
+## 🎯 DeepEval Evaluation Metrics in Detail
+
+This framework implements five core metrics provided by DeepEval, each designed to evaluate a specific dimension of LLM performance:
+
+### 1. Answer Relevancy
+* **What it measures:** Does the LLM actually answer the user's question, or does it ramble and provide irrelevant information?
+* **How it works:** The judge evaluates the `actual_output` against the `input` to penalize incomplete answers or redundant information.
+* **Best for:** General Q&A bots, customer support assistants.
+
+### 2. Faithfulness
+* **What it measures:** Is the LLM's response strictly derived from the provided context?
+* **How it works:** Crucial for Retrieval-Augmented Generation (RAG). The judge compares the `actual_output` against the `retrieval_context` to ensure the model isn't making up information outside the bounds of the provided documents.
+* **Best for:** Document Q&A, enterprise search, RAG pipelines.
+
+### 3. Hallucination
+* **What it measures:** Did the LLM fabricate facts or hallucinate details?
+* **How it works:** Similar to faithfulness, but specifically looks for contradictions between the `actual_output` and the provided `context`.
+* **Best for:** Fact-checking, summarization, medical/legal chatbots.
+
+### 4. Toxicity
+* **What it measures:** Is the response safe for users?
+* **How it works:** The judge analyzes the `actual_output` for harmful, offensive, biased, or toxic content.
+* **Best for:** Public-facing applications, social media bots, safety guardrails.
+
+### 5. G-Eval (Custom Criteria)
+* **What it measures:** Anything you want! G-Eval is a flexible, criteria-based metric.
+* **How it works:** You define a natural language rubric (e.g., "Determine whether the actual output is factually correct based on the expected output"). The judge follows these exact instructions to generate a score.
+* **Best for:** Domain-specific evaluations, tone/style checks, formatting compliance.
 
 ---
 
